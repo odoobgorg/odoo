@@ -55,13 +55,6 @@
                             <label for="module_base_import"/>
                         </div>
                     </group>
-                    <group groups="base.group_no_one">
-                        <label for="font" />
-                        <div>
-                            <field name="font" class="oe_inline" />
-                            <button string="(reload fonts)" name="act_discover_fonts" type="object" class="oe_link"/>
-                        </div>
-                    </group>
                     <group>
                         <label for="id" string="Multi Company"/>
                         <div name="group_light_multi_company">
@@ -78,7 +71,7 @@
                             </div>
                         </div>
                     </group>
-                    <group string="Shared ressources" name="company_share_ressources" attrs="{'invisible': [('group_light_multi_company','=',False)]}">
+                    <group string="Shared resources" name="company_share_ressources" attrs="{'invisible': [('group_light_multi_company','=',False)]}">
                         <field name="company_share_partner" class="oe_inline" />
                     </group>
                     <group string="Google Integration" name="google">

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import operator
-import simplejson
+import json
 import urllib2
 
 import openerp
@@ -232,12 +232,12 @@ class google_calendar(osv.AbstractModel):
             "start": {
                 type: start_date,
                 vstype: None,
-                'timeZone': context.get('tz', 'UTC'),
+                'timeZone': context.get('tz') or 'UTC',
             },
             "end": {
                 type: final_date,
                 vstype: None,
-                'timeZone': context.get('tz', 'UTC'),
+                'timeZone': context.get('tz') or 'UTC',
             },
             "attendees": attendee_list,
             "reminders": {
@@ -267,7 +267,7 @@ class google_calendar(osv.AbstractModel):
 
         url = "/calendar/v3/calendars/%s/events?fields=%s&access_token=%s" % ('primary', urllib2.quote('id,updated'), self.get_token(cr, uid, context))
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        data_json = simplejson.dumps(data)
+        data_json = json.dumps(data)
 
         return gs_pool._do_request(cr, uid, url, data_json, headers, type='POST', context=context)
 
@@ -295,13 +295,13 @@ class google_calendar(osv.AbstractModel):
             st, content, ask_time = self.pool['google.service']._do_request(cr, uid, url, params, headers, type='GET', context=context)
         except urllib2.HTTPError, e:
             if e.code == 401:  # Token invalid / Acces unauthorized
-                error_msg = "Your token is invalid or has been revoked !"
+                error_msg = _("Your token is invalid or has been revoked !")
 
                 registry = openerp.modules.registry.RegistryManager.get(request.session.db)
                 with registry.cursor() as cur:
                     self.pool['res.users'].write(cur, SUPERUSER_ID, [uid], {'google_calendar_token': False, 'google_calendar_token_validity': False}, context=context)
 
-                raise self.pool.get('res.config.settings').get_config_warning(cr, _(error_msg), context=context)
+                raise self.pool.get('res.config.settings').get_config_warning(cr, error_msg, context=context)
             raise
 
         return (status_response(st), content['id'] or False, ask_time)
@@ -368,7 +368,7 @@ class google_calendar(osv.AbstractModel):
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         data = self.generate_data(cr, uid, oe_event, context=context)
         data['sequence'] = google_event.get('sequence', 0)
-        data_json = simplejson.dumps(data)
+        data_json = json.dumps(data)
 
         status, content, ask_time = self.pool['google.service']._do_request(cr, uid, url, data_json, headers, type='PATCH', context=context)
 
@@ -402,7 +402,7 @@ class google_calendar(osv.AbstractModel):
 
         data['sequence'] = self.get_sequence(cr, uid, instance_id, context)
 
-        data_json = simplejson.dumps(data)
+        data_json = json.dumps(data)
         return gs_pool._do_request(cr, uid, url, data_json, headers, type='PUT', context=context)
 
     def update_from_google(self, cr, uid, event, single_event_dict, type, context):
@@ -697,10 +697,10 @@ class google_calendar(osv.AbstractModel):
                     registry = openerp.modules.registry.RegistryManager.get(request.session.db)
                     with registry.cursor() as cur:
                         self.pool['res.users'].write(cur, SUPERUSER_ID, [uid], {'google_calendar_last_sync_date': False}, context=context)
-                error_key = simplejson.loads(str(e))
+                error_key = json.loads(str(e))
                 error_key = error_key.get('error', {}).get('message', 'nc')
-                error_msg = "Google is lost... the next synchro will be a full synchro. \n\n %s" % error_key
-                raise self.pool.get('res.config.settings').get_config_warning(cr, _(error_msg), context=context)
+                error_msg = _("Google is lost... the next synchro will be a full synchro. \n\n %s") % error_key
+                raise self.pool.get('res.config.settings').get_config_warning(cr, error_msg, context=context)
 
             my_google_att_ids = att_obj.search(cr, uid, [
                 ('partner_id', '=', myPartnerID),
@@ -857,11 +857,9 @@ class google_calendar(osv.AbstractModel):
                     if actSrc == 'GG':
                         try:
                             self.delete_an_event(cr, uid, current_event[0], context=context)
-                        except Exception, e:
-                            error = simplejson.loads(e.read())
-                            error_nr = error.get('error', {}).get('code')
+                        except urllib2.HTTPError, e:
                             # if already deleted from gmail or never created
-                            if error_nr in (404, 410,):
+                            if e.code in (404, 410,):
                                 pass
                             else:
                                 raise e
@@ -973,9 +971,10 @@ class calendar_event(osv.Model):
     _inherit = "calendar.event"
 
     def get_fields_need_update_google(self, cr, uid, context=None):
-        return ['name', 'description', 'allday', 'start', 'date_end', 'stop',
-                'attendee_ids', 'alarm_ids', 'location', 'class', 'active',
-                'start_date', 'start_datetime', 'stop_date', 'stop_datetime']
+        recurrent_fields = self._get_recurrent_fields(cr, uid, context=context)
+        return recurrent_fields + ['name', 'description', 'allday', 'start', 'date_end', 'stop',
+                                   'attendee_ids', 'alarm_ids', 'location', 'class', 'active',
+                                   'start_date', 'start_datetime', 'stop_date', 'stop_datetime']
 
     def write(self, cr, uid, ids, vals, context=None):
         if context is None:
