@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-12-17 14:09+0000\n"
-"PO-Revision-Date: 2016-02-22 10:17+0000\n"
+"PO-Revision-Date: 2016-03-03 10:54+0000\n"
 "Last-Translator: Simone Bernini <simone@aperturelabs.it>\n"
 "Language-Team: Italian (http://www.transifex.com/odoo/odoo-9/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -290,7 +290,7 @@ msgid ""
 "<span class=\"panel-title\">\n"
 "                                        <strong>Invoice payment by Wire Transfer</strong>\n"
 "                                    </span>"
-msgstr "<span class=\"panel-title\">\n                                        <strong>Paga fattura con Bonifico</strong>\n                                    </span>"
+msgstr "<span class=\"panel-title\">\n                                        <strong>Pagamento fattura tramite Bonifico Bancario</strong>\n                                    </span>"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -809,7 +809,7 @@ msgstr "Una posizione fiscale può essere definita solo una volta sulla stessa i
 #: code:addons/account/models/account_bank_statement.py:388
 #, python-format
 msgid "A transaction can't have a 0 amount."
-msgstr "Un'operazione non può avere valore pari a 0."
+msgstr "Un movimento non può avere un importo pari a 0."
 
 #. module: account
 #: model:ir.actions.act_window,help:account.action_account_journal_form
@@ -1263,7 +1263,7 @@ msgstr "Impostazioni avanzate"
 #: model:ir.ui.menu,name:account.menu_finance_entries
 #: model:res.groups,name:account.group_account_manager
 msgid "Adviser"
-msgstr "Consulente"
+msgstr "Contabilità"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_tax_include_base_amount
@@ -1467,7 +1467,7 @@ msgstr "Importo"
 #: model:ir.model.fields,field_description:account.field_account_invoice_residual_company_signed
 #: model:ir.model.fields,field_description:account.field_account_invoice_residual_signed
 msgid "Amount Due"
-msgstr "Importo Dovuto"
+msgstr "Importo a saldo"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_invoice_line_price_subtotal_signed
@@ -1938,7 +1938,7 @@ msgstr "Ricevute &amp; Rimborsi"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
 msgid "Bills Analysis"
-msgstr "Analisi ricevute"
+msgstr "Analisi delle fatture"
 
 #. module: account
 #: code:addons/account/models/account_journal_dashboard.py:159
@@ -2706,7 +2706,7 @@ msgstr "Nazione"
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_fiscal_position_country_group_id
 msgid "Country Group"
-msgstr "Gruppo di Paesi"
+msgstr "Raggruppamenti di Paesi"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_invoice_report_country_id
@@ -3504,7 +3504,7 @@ msgstr "Data di scadenza"
 msgid ""
 "Duplicated vendor reference detected. You probably encoded twice the same "
 "vendor bill/refund."
-msgstr "Rilevati doppi fornitori di riferimento. Probabilmente la stessa fattura/nota di credito sono state registrate due volte."
+msgstr ""
 
 #. module: account
 #: model:ir.actions.report.xml,name:account.account_invoice_action_report_duplicate
@@ -3567,7 +3567,7 @@ msgstr "Data finale"
 #. module: account
 #: model:account.payment.term,name:account.account_payment_term
 msgid "End of Following Month"
-msgstr "Fine del mese suggessivo"
+msgstr "Fine del prossimo mese"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_bank_statement_balance_end_real
@@ -4830,7 +4830,7 @@ msgstr "Gennaio"
 #: model:ir.ui.view,arch_db:account.view_bank_statement_search
 #, python-format
 msgid "Journal"
-msgstr "Giornale"
+msgstr "Sezionale"
 
 #. module: account
 #: selection:account.report.general.ledger,sortby:0
@@ -4858,7 +4858,7 @@ msgstr "Registrazioni per mese"
 #: model:ir.model.fields,field_description:account.field_account_move_line_move_id
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
 msgid "Journal Entry"
-msgstr "Voce giornale"
+msgstr "Voce sezionale"
 
 #. module: account
 #: model:ir.model,name:account.model_account_move_line
@@ -5594,7 +5594,7 @@ msgstr "Nuovo movimento"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
 msgid "New Transactions"
-msgstr "Nuova operazione"
+msgstr "Nuovo movimento"
 
 #. module: account
 #: code:addons/account/models/account_move.py:1004
@@ -6196,7 +6196,7 @@ msgstr "Limite di debito"
 #: model:ir.model.fields,field_description:account.field_account_payment_amount
 #: model:ir.model.fields,field_description:account.field_account_register_payments_amount
 msgid "Payment Amount"
-msgstr "Valore pagamento"
+msgstr "Importo pagamento"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_abstract_payment_payment_date
@@ -6304,7 +6304,7 @@ msgstr "Termine di pagamento: 30% in anticipo alla fine del prossimo mese"
 #. module: account
 #: model:account.payment.term,note:account.account_payment_term
 msgid "Payment term: End of Following Month"
-msgstr "Termine di pagamento: Fine del mese suggessivo"
+msgstr "Termine di pagamento: Fine del prossimo mese"
 
 #. module: account
 #: model:account.payment.term,note:account.account_payment_term_immediate
@@ -7083,7 +7083,7 @@ msgstr "Residuo"
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_move_line_amount_residual
 msgid "Residual Amount"
-msgstr "Valore residuo"
+msgstr "Importo rimanente"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_move_line_amount_residual_currency
@@ -7243,7 +7243,7 @@ msgstr "Ricerca movimento"
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
 msgid "Search Operations"
-msgstr "Serca operazioni"
+msgstr "Ricerca movimenti"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.view_account_tax_template_search
@@ -8752,7 +8752,7 @@ msgstr "Registrazioni contabili non riconciliate"
 #: model:ir.model.fields,field_description:account.field_account_invoice_amount_untaxed
 #: model:ir.model.fields,field_description:account.field_account_invoice_amount_untaxed_signed
 msgid "Untaxed Amount"
-msgstr "Importo non tassato"
+msgstr "Totale imponibile"
 
 #. module: account
 #: model:ir.ui.view,arch_db:account.account_planner
@@ -9228,6 +9228,14 @@ msgid ""
 "You cannot do this modification on a reconciled entry. You can just change some non legal fields or you must unreconcile first.\n"
 "%s."
 msgstr "Non è possibile fare questa modifica su una registrazione riconciliata. E' possibile cambiare solo alcuni campi non fiscali, altrimenti è necessario prima annullare la riconciliazione.\n%s."
+
+#. module: account
+#: code:addons/account/models/account.py:329
+#, python-format
+msgid ""
+"You cannot empty the account number once set.\n"
+"If you would like to delete the account number, you can do it from the Bank Accounts list."
+msgstr "Non puoi cancellare il numero di conto una volta impostato.\nSe lo vuoi cancellare, lo puoi fare dalla lista dei conti della Banca."
 
 #. module: account
 #: code:addons/account/models/account.py:96
