@@ -419,17 +419,21 @@ class AccountBankStatementLine(models.Model):
 
     @api.multi
     def button_cancel_reconciliation(self):
-        # TOCKECK : might not behave as expected in case of reconciliations (match statement line with already
-        # registered payment) or partial reconciliations : it will completely remove the existing payment.
-        move_recs = self.env['account.move']
+        moves_to_unbind = self.env['account.move']
+        moves_to_cancel = self.env['account.move']
         for st_line in self:
-            move_recs = (move_recs | st_line.journal_entry_ids)
-        if move_recs:
-            for move in move_recs:
+            moves_to_unbind |= st_line.journal_entry_ids
+            for move in st_line.journal_entry_ids:
+                if any(line.payment_id for line in move.line_ids):
+                    continue
+                moves_to_cancel |= st_line.journal_entry_ids
+        if moves_to_unbind:
+            moves_to_unbind.write({'statement_line_id': False})
+        if moves_to_cancel:
+            for move in moves_to_cancel:
                 move.line_ids.remove_move_reconcile()
-            move_recs.write({'statement_line_id': False})
-            move_recs.button_cancel()
-            move_recs.unlink()
+            moves_to_cancel.button_cancel()
+            moves_to_cancel.unlink()
 
     ####################################################
     # Reconciliation interface methods
@@ -711,8 +715,11 @@ class AccountBankStatementLine(models.Model):
             elif st_line_currency == company_currency:
                 total_amount = self.amount_currency
             else:
-                total_amount = statement_currency.with_context({'date': self.date}).compute(self.amount, company_currency)
-            ratio = total_amount / amount
+                total_amount = statement_currency.with_context({'date': self.date}).compute(self.amount, company_currency, round=False)
+            if float_is_zero(total_amount - amount, precision_rounding=company_currency.rounding):
+                ratio = total_amount / amount
+            else:
+                ratio = 1.0
             # Then use it to adjust the statement.line field that correspond to the move.line amount_currency
             if statement_currency != company_currency:
                 amount_currency = self.amount * ratio
